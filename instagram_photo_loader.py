@@ -25,15 +25,15 @@ def main():
             for pic in pics:
                 if pic in posted_pic_list:
                     continue
-                print('upload: ' + images_path + pic)
+                print(f'upload: {images_path}{pic}')
                 bot.upload_photo(images_path + pic)
                 if bot.api.last_response.status_code != 200:
                     print(bot.api.last_response)
-                    os.rename(images_path + pic, images_path + pic + '.REMOVE_ME')
-                    posted_pic_list.append(pic+'.REMOVE_ME')
+                    os.rename(images_path + pic, f'{images_path}{pic}.REMOVE_ME')
+                    posted_pic_list.append(f'{pic}.REMOVE_ME')
                     break
                 if pic not in posted_pic_list:
-                    posted_pic_list.append(pic+'.REMOVE_ME')
+                    posted_pic_list.append(f'{pic}.REMOVE_ME')
         except Exception as e:
             print(str(e))
 
