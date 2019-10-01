@@ -12,37 +12,20 @@ def main():
     load_dotenv()
     LOGIN = os.getenv('LOGIN_INSTAGRAM')
     PASSWORD = os.getenv('PASSWORD_INSTAGRAM')
-    posted_pic_list = []
     bot = Bot()
     bot.login(username=LOGIN, password=PASSWORD)
-    all_photo_uploaded = False
-    while not all_photo_uploaded:
-        pics = os.listdir(images_path)
+    pics = os.listdir(images_path)
+    pics = sorted(pics)
+    try:
         for pic in pics:
-            if pic.endswith('REMOVE_ME'):
-                all_photo_uploaded = True
-            else:
-                all_photo_uploaded = False
-                break
-        pics = sorted(pics)
-        try:
-            for pic in pics:
-                if pic in posted_pic_list:
-                    continue
-                print(f'upload: {images_path}{pic}')
-                bot.upload_photo(images_path + pic)
-                if bot.api.last_response.status_code != 200:
-                    print(bot.api.last_response)
-                    os.rename(images_path + pic, f'{images_path}{pic}.REMOVE_ME')
-                    posted_pic_list.append(f'{pic}.REMOVE_ME')
-                    break
-                if pic not in posted_pic_list:
-                    posted_pic_list.append(f'{pic}.REMOVE_ME')
-        except Exception as e:
-            print(str(e))
+            print(f'upload: {images_path}{pic}')
+            bot.upload_photo(f'{images_path}{pic}')
+            if bot.api.last_response.status_code != 200:
+                print(bot.api.last_response)
+            os.remove(f'{images_path}{pic}')
 
-
-
+    except Exception as e:
+        print(str(e))
 
 if __name__ == '__main__':
     main()
