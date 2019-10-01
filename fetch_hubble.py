@@ -31,7 +31,6 @@ def fetch_hubble_id_image(image_id, images_path):
     response = requests.get(url)
     media = response.json()
     image_link_best_quality = media['image_files'][-1]['file_url']
-    print(image_link_best_quality)
     if define_extension(image_link_best_quality) in EXTENSION_FOR_INSTAGRAM:
         right_url = f"https://{image_link_best_quality.replace('//imgsrc.', '')}".replace('hvi/', '')
         download_image(right_url, f'{image_id}{os.path.splitext(image_link_best_quality)[-1]}', images_path)

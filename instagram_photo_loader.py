@@ -26,7 +26,6 @@ def main():
                 all_photo_uploaded = False
                 break
         pics = sorted(pics)
-        print(pics)
         try:
             for pic in pics:
                 if pic in posted_pic_list:
