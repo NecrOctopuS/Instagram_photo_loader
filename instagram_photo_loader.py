@@ -4,11 +4,6 @@ import fetch_hubble
 import fetch_spacex
 from instabot import Bot
 
-def ensure_dir(file_path):
-    directory = os.path.dirname(file_path)
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
 def main():
     load_dotenv()
     LOGIN = os.getenv('LOGIN_INSTAGRAM')
@@ -47,7 +42,7 @@ def main():
 
 if __name__ == '__main__':
     images_path = 'Images/'
-    ensure_dir(images_path)
+    os.makedirs(images_path, exist_ok=True)
     fetch_spacex.fetch_spacex_last_launch(images_path)
     fetch_hubble.fetch_hubble_collections(images_path)
     main()
