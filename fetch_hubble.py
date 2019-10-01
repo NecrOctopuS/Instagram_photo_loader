@@ -1,10 +1,10 @@
 import requests
 from PIL import Image
 
-extension_for_instagram = [
+EXTENSION_FOR_INSTAGRAM = [
     'jpg',
 ]
-recommended_picture_size_for_instagram = 1080
+RECOMMENDED_PICTURE_SIZE_FOR_INSTAGRAM = 1080
 
 def download_image(image_url, image_name, images_path):
     response = requests.get(image_url)
@@ -21,8 +21,8 @@ def square_image(image_name):
     else:
         coordinates = ((image.height - image.width)/2, 0, image.width, image.height - (image.height - image.width)/2)
     image = image.crop(coordinates)
-    if image.width > recommended_picture_size_for_instagram:
-        image.thumbnail((recommended_picture_size_for_instagram, recommended_picture_size_for_instagram))
+    if image.width > RECOMMENDED_PICTURE_SIZE_FOR_INSTAGRAM:
+        image.thumbnail((RECOMMENDED_PICTURE_SIZE_FOR_INSTAGRAM, RECOMMENDED_PICTURE_SIZE_FOR_INSTAGRAM))
     image.save(image_name)
 
 def define_extension(url):
@@ -34,7 +34,7 @@ def fetch_hubble_id_image(image_id, images_path):
     media = response.json()
     image_link_best_quality = media['image_files'][-1]['file_url']
     print(image_link_best_quality)
-    if define_extension(image_link_best_quality) in extension_for_instagram:
+    if define_extension(image_link_best_quality) in EXTENSION_FOR_INSTAGRAM:
         right_url = f"https://{image_link_best_quality.replace('//imgsrc.', '')}".replace('hvi/', '')
         download_image(right_url, f'{image_id}.{define_extension(image_link_best_quality)}', images_path)
         square_image(f'{images_path}/{image_id}.{define_extension(image_link_best_quality)}')

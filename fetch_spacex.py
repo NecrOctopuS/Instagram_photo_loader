@@ -1,7 +1,7 @@
 import requests
 from PIL import Image
 
-recommended_picture_size_for_instagram = 1080
+RECOMMENDED_PICTURE_SIZE_FOR_INSTAGRAM = 1080
 
 def download_image(image_url, image_name, images_path):
     response = requests.get(image_url)
@@ -17,8 +17,8 @@ def square_image(image_name):
     else:
         coordinates = ((image.height - image.width)/2, 0, image.width, image.height - (image.height - image.width)/2)
     image = image.crop(coordinates)
-    if image.width > recommended_picture_size_for_instagram:
-        image.thumbnail((recommended_picture_size_for_instagram, recommended_picture_size_for_instagram))
+    if image.width > RECOMMENDED_PICTURE_SIZE_FOR_INSTAGRAM:
+        image.thumbnail((RECOMMENDED_PICTURE_SIZE_FOR_INSTAGRAM, RECOMMENDED_PICTURE_SIZE_FOR_INSTAGRAM))
     image.save(image_name)
 
 def fetch_spacex_last_launch(images_path):
