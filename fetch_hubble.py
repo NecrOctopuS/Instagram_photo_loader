@@ -1,8 +1,9 @@
 import requests
 from PIL import Image
+import os
 
 EXTENSION_FOR_INSTAGRAM = [
-    'jpg',
+    '.jpg',
 ]
 RECOMMENDED_PICTURE_SIZE_FOR_INSTAGRAM = 1080
 
@@ -25,9 +26,6 @@ def square_image(image_name):
         image.thumbnail((RECOMMENDED_PICTURE_SIZE_FOR_INSTAGRAM, RECOMMENDED_PICTURE_SIZE_FOR_INSTAGRAM))
     image.save(image_name)
 
-def define_extension(url):
-    return url.split('.')[-1]
-
 def fetch_hubble_id_image(image_id, images_path):
     url = f'http://hubblesite.org/api/v3/image/{image_id}'
     response = requests.get(url)
@@ -36,8 +34,8 @@ def fetch_hubble_id_image(image_id, images_path):
     print(image_link_best_quality)
     if define_extension(image_link_best_quality) in EXTENSION_FOR_INSTAGRAM:
         right_url = f"https://{image_link_best_quality.replace('//imgsrc.', '')}".replace('hvi/', '')
-        download_image(right_url, f'{image_id}.{define_extension(image_link_best_quality)}', images_path)
-        square_image(f'{images_path}/{image_id}.{define_extension(image_link_best_quality)}')
+        download_image(right_url, f'{image_id}{os.path.splitext(image_link_best_quality)[-1]}', images_path)
+        square_image(f'{images_path}/{image_id}{os.path.splitext(image_link_best_quality)[-1]}')
 
 def fetch_hubble_collections(images_path, collection_name='spacecraft'):
     collection_url = f'http://hubblesite.org/api/v3/images/{collection_name}'
