@@ -5,6 +5,10 @@ import fetch_spacex
 from instabot import Bot
 
 def main():
+    images_path = 'Images/'
+    os.makedirs(images_path, exist_ok=True)
+    fetch_spacex.fetch_spacex_last_launch(images_path)
+    fetch_hubble.fetch_hubble_collections(images_path)
     load_dotenv()
     LOGIN = os.getenv('LOGIN_INSTAGRAM')
     PASSWORD = os.getenv('PASSWORD_INSTAGRAM')
@@ -41,10 +45,6 @@ def main():
 
 
 if __name__ == '__main__':
-    images_path = 'Images/'
-    os.makedirs(images_path, exist_ok=True)
-    fetch_spacex.fetch_spacex_last_launch(images_path)
-    fetch_hubble.fetch_hubble_collections(images_path)
     main()
 
 
