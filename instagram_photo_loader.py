@@ -23,16 +23,20 @@ def main():
     bot.login(username=LOGIN, password=PASSWORD)
     pics = os.listdir(images_path)
     pics = sorted(pics)
-    try:
-        for pic in pics:
+    for pic in pics:
+        try:
             print(f'upload: {images_path}{pic}')
             bot.upload_photo(f'{images_path}{pic}')
             if bot.api.last_response.status_code != 200:
                 print(bot.api.last_response)
-            os.remove(f'{images_path}{pic}.REMOVE_ME')
-
-    except requests.exceptions.HTTPError:
-        print('Instagram не работает')
+        except requests.exceptions.HTTPError:
+            print('Instagram не работает')
+        finally:
+            try:
+                os.remove(f'{images_path}{pic}.REMOVE_ME')
+            except FileNotFoundError:
+                for file in os.listdir(images_path):
+                    os.remove(os.path.join(images_path, file))
 
 if __name__ == '__main__':
     main()
